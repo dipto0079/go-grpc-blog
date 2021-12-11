@@ -1,0 +1,50 @@
+package blog
+
+type Todo struct {
+	ID          int64  `pb:"1"`
+	Title       string `pb:"2"`
+	Description string `pb:"3"`
+	IsComplete  bool   `pb:"4"`
+}
+
+type CreateTodoRequest struct {
+	Todo Todo `pb:"1"`
+}
+
+type CreateTodoResponse struct {
+	ID int64 `pb:"1"`
+}
+
+type GetTodoRequest struct {
+	ID int64 `pb:"1"`
+}
+
+type GetTodoResponse struct {
+	Todo Todo `pb:"1"`
+}
+
+type UpdateTodoRequest struct {
+	Todo Todo `pb:"1"`
+}
+
+type UpdateTodoResponse struct{}
+
+type DeleteTodoRequest struct {
+	ID int64 `pb:"1"`
+}
+
+type DeleteTodoResponse struct{}
+
+type CompleteTodoRequest struct {
+	ID int64 `pb:"1"`
+}
+
+type CompleteTodoResponse struct{}
+
+type TodoService interface {
+	Create(CreateTodoRequest) CreateTodoResponse
+	Get(GetTodoRequest) GetTodoResponse
+	Update(UpdateTodoRequest) UpdateTodoResponse
+	Delete(DeleteTodoRequest) DeleteTodoResponse
+	Complete(CompleteTodoRequest) CompleteTodoResponse
+}
