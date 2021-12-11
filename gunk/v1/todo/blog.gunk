@@ -1,50 +1,50 @@
 package blog
 
-type Todo struct {
+type Blog struct {
 	ID          int64  `pb:"1"`
 	Title       string `pb:"2"`
 	Description string `pb:"3"`
 	IsComplete  bool   `pb:"4"`
 }
 
-type CreateTodoRequest struct {
-	Todo Todo `pb:"1"`
+type CreateBlogRequest struct {
+	Blog Blog `pb:"1"`
 }
 
-type CreateTodoResponse struct {
+type CreateBlogResponse struct {
 	ID int64 `pb:"1"`
 }
 
-type GetTodoRequest struct {
+type GetBlogRequest struct {
 	ID int64 `pb:"1"`
 }
 
-type GetTodoResponse struct {
-	Todo Todo `pb:"1"`
+type GetBlogResponse struct {
+	Blog Blog `pb:"1"`
 }
 
-type UpdateTodoRequest struct {
-	Todo Todo `pb:"1"`
+type UpdateBlogRequest struct {
+	Blog Blog `pb:"1"`
 }
 
-type UpdateTodoResponse struct{}
+type UpdateBlogResponse struct{}
 
-type DeleteTodoRequest struct {
+type DeleteBlogRequest struct {
 	ID int64 `pb:"1"`
 }
 
-type DeleteTodoResponse struct{}
+type DeleteBlogResponse struct{}
 
-type CompleteTodoRequest struct {
+type CompleteBlogRequest struct {
 	ID int64 `pb:"1"`
 }
 
-type CompleteTodoResponse struct{}
+type CompleteTBlogResponse struct{}
 
-type TodoService interface {
-	Create(CreateTodoRequest) CreateTodoResponse
-	Get(GetTodoRequest) GetTodoResponse
-	Update(UpdateTodoRequest) UpdateTodoResponse
-	Delete(DeleteTodoRequest) DeleteTodoResponse
-	Complete(CompleteTodoRequest) CompleteTodoResponse
+type BlogService interface {
+	Create(CreateBlogRequest) CreateBlogResponse
+	Get(GetBlogRequest) GetBlogResponse
+	Update(UpdateBlogRequest) UpdateBlogResponse
+	Delete(DeleteBlogRequest) DeleteBlogResponse
+	Complete(CompleteBlogRequest) CompleteBlogResponse
 }
