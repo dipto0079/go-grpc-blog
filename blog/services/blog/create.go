@@ -12,9 +12,7 @@ import (
 
 
 func (s *Svc) Create(ctx context.Context, req *tpb.CreateBlogRequest) (*tpb.CreateBlogResponse, error){
-	log.Printf("Request Todo: %#v\n", req.GetBlog())
-
-	log.Fatal("asdfsdf")
+	log.Printf("Request Blog: %#v\n", req.GetBlog())
 	// Need to Validate request 
 	blog := storage.Blog{
 		Title: req.GetBlog().Title,

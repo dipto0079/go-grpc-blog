@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"go-grpc-blog/blog/storage"
+
 	tpb "go-grpc-blog/gunk/v1/blog"
 )
 
@@ -16,9 +17,9 @@ type Svc struct{
 	core blogCoreStore
 }
 
-func NewTodoServer(c blogCoreStore) *Svc {
+func NewTodoServer(b blogCoreStore) *Svc {
 	return &Svc{
-		core: c,
+		core: b,
 	}
 }
 

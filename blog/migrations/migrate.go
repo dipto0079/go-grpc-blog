@@ -1,7 +1,7 @@
 package main
 
 import (
-	"grpc-todos/todo/storage/postgres"
+	"go-grpc-blog/blog/storage/postgres"
 	"log"
 )
 

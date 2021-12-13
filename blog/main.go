@@ -9,9 +9,10 @@ import (
 
 	tpb "go-grpc-blog/gunk/v1/blog"
 
-	tc "go-grpc-blog/blog/core/blog"
+	tb "go-grpc-blog/blog/core/blog"
 
 	"go-grpc-blog/blog/services/blog"
+
 	"go-grpc-blog/blog/storage/postgres"
 
 	"github.com/spf13/viper"
@@ -33,16 +34,25 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
+
+
 	store, err := newDBFromConfig(config)
 	if err != nil {
 		log.Fatalf("failed to connect database: %s", err)
 	}
-	cs := tc.NewCoreSvc(store)
+	cs := tb.NewCoreSve(store)
 	s := blog.NewTodoServer(cs)
 
+
 	tpb.RegisterBlogServiceServer(grpcServer, s)
+
+
 	host, port := config.GetString("server.host"), config.GetString("server.port")
+
+
 	lis, err := net.Listen("tcp", fmt.Sprintf("%s:%s", host, port))
+
+	
 	if err != nil {
 		log.Fatalf("failed to listen: %s", err)
 	}
