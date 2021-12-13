@@ -3,20 +3,20 @@ package blog
 import (
 	"context"
 
-	"grpc-todos/todo/storage"
-	tpb "grpc-todos/gunk/v1/todo"
+	"go-grpc-blog/blog/storage"
+	tpb "go-grpc-blog/gunk/v1/blog"
 )
 
-type todoCoreStore interface {
-	Create(context.Context, storage.Todo) (int64, error)
+type blogCoreStore interface {
+	Create(context.Context, storage.Blog) (int64, error)
 }
 
 type Svc struct{
-	tpb.UnimplementedTodoServiceServer
-	core todoCoreStore
+	tpb.UnimplementedBlogServiceServer
+	core blogCoreStore
 }
 
-func NewTodoServer(c todoCoreStore) *Svc {
+func NewTodoServer(c blogCoreStore) *Svc {
 	return &Svc{
 		core: c,
 	}

@@ -8,7 +8,9 @@ import (
 	"strings"
 
 	tpb "go-grpc-blog/gunk/v1/blog"
-	//tc "go-grpc-blog/blog/core/todo"
+
+	tc "go-grpc-blog/blog/core/blog"
+
 	"go-grpc-blog/blog/services/blog"
 	"go-grpc-blog/blog/storage/postgres"
 
@@ -36,9 +38,9 @@ func main() {
 		log.Fatalf("failed to connect database: %s", err)
 	}
 	cs := tc.NewCoreSvc(store)
-	s := todo.NewTodoServer(cs)
+	s := blog.NewTodoServer(cs)
 
-	tpb.RegisterTodoServiceServer(grpcServer, s)
+	tpb.RegisterBlogServiceServer(grpcServer, s)
 	host, port := config.GetString("server.host"), config.GetString("server.port")
 	lis, err := net.Listen("tcp", fmt.Sprintf("%s:%s", host, port))
 	if err != nil {

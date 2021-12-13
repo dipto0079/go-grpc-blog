@@ -2,8 +2,8 @@ package blog
 
 import (
 	"context"
-	tpb "grpc-todos/gunk/v1/todo"
-	"grpc-todos/todo/storage"
+	tpb "go-grpc-blog/gunk/v1/blog"
+	"go-grpc-blog/blog/storage"
 	"log"
 
 	"google.golang.org/grpc/codes"
@@ -11,20 +11,20 @@ import (
 )
 
 
-func (s *Svc) Create(ctx context.Context, req *tpb.CreateTodoRequest) (*tpb.CreateTodoResponse, error){
-	log.Printf("Request Todo: %#v\n", req.GetTodo())
+func (s *Svc) Create(ctx context.Context, req *tpb.CreateBlogRequest) (*tpb.CreateBlogResponse, error){
+	log.Printf("Request Todo: %#v\n", req.GetBlog())
 
 	log.Fatal("asdfsdf")
 	// Need to Validate request 
-	todo := storage.Todo{
-		Title: req.GetTodo().Title,
-		Description: req.GetTodo().Description,
+	blog := storage.Blog{
+		Title: req.GetBlog().Title,
+		Description: req.GetBlog().Description,
 	}
-	id, err := s.core.Create(context.Background(), todo)
+	id, err := s.core.Create(context.Background(), blog)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to create todo: %s", err)
 	}
-	return &tpb.CreateTodoResponse{
+	return &tpb.CreateBlogResponse{
 		ID: id,
 	}, nil
 }
