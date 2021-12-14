@@ -3,9 +3,10 @@ package postgres
 import (
 	"context"
 	"go-grpc-blog/blog/storage"
+	"log"
+
+	// "log"
 	"testing"
-
-
 )
 
 func TestCreate(t *testing.T) {
@@ -19,8 +20,8 @@ func TestCreate(t *testing.T) {
 		{
 			name: "CREATE_BLOG_SUCCESS",
 			in: storage.Blog{
-				Title: "This is title 1",
-				Description: "This is description 1",
+				Title: "This is title ",
+				Description: "This is description ",
 			},
 			want: 1,
 		},
@@ -29,7 +30,10 @@ func TestCreate(t *testing.T) {
 		tt:=tt
 		t.Run(tt.name, func(t *testing.T) {
 		
-			got, err := s.Create(context.TODO(), tt.in)
+			got, err := s.Create(context.Background(), tt.in)
+
+			 log.Printf("%#v", got)
+
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Storage.Create() error = %v, wantErr %v", err, tt.wantErr)
 				return

@@ -6,13 +6,13 @@ import (
 )
 
 const insertBlog =`
-	INSERT INTO blog(
+	INSERT INTO blogs(
 		title,
 		description
 	) VALUES(
 		:title,
 		:description
-	);
+	)RETURNING id;
 `
 
 func (s *Storage) Create(ctx context.Context, t storage.Blog) (int64, error) {
