@@ -4,10 +4,7 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
-	// "regexp"
 	"time"
-
-	// "github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"github.com/pressly/goose"
 )
