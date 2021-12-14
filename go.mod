@@ -3,6 +3,7 @@ module go-grpc-blog
 go 1.17
 
 require (
+	github.com/google/go-cmp v0.5.6
 	github.com/jmoiron/sqlx v1.3.4
 	github.com/lib/pq v1.10.4
 	github.com/pressly/goose v2.7.0+incompatible

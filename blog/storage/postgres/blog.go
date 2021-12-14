@@ -26,3 +26,12 @@ func (s *Storage) Create(ctx context.Context, t storage.Blog) (int64, error) {
 	}
 	return id,nil
 }
+
+func (s *Storage) Get(ctx context.Context, id int64) (*storage.Blog, error) {
+	var b storage.Blog
+
+	if err :=s.db.Get(&b,"SELECT * FROM blogs WHERE id=$1");err != nil{
+		return nil,err
+	}
+	return &b,nil
+}
