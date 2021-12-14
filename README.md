@@ -1,15 +1,15 @@
 ##gunk get
 <hr/>
 https://github.com/gunk/gunk
-
+<hr/>
 ##generate
 <hr/>
 ./generate.sh
-
+<hr/>
 ##goose add
 <hr/>
 go get github.com/pressly/goose
-
+<hr/>
 
 ##migrations
 <hr/>
@@ -30,7 +30,7 @@ Commands:
 
 ##test
 <hr/>
-
+<hr/>
 cd blog/storage/postgres
-
+<hr/>
 DATABASE_CONNECTION="user=postgres password=dipto host=localhost port=5432 sslmode=disable" go test 
