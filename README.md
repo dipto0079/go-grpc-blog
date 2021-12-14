@@ -1,14 +1,14 @@
-#gunk get
+##gunk get
 https://github.com/gunk/gunk
 
-#generate
+##generate
 ./generate.sh
 
-#goose add
+##goose add
 go get github.com/pressly/goose
 
 
-#migrations
+##migrations
 go run migrations/migrate.go create create_blog_tabls sql
 
 go run migrations/migrate.go up
@@ -24,7 +24,7 @@ Commands:
     create NAME [sql|go] Creates new migration file with next version
 
 
-#test
+##test
 
 cd blog/storage/postgres
 
