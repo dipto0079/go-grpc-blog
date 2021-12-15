@@ -5,7 +5,7 @@
         <title>Create Blog</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
-        <meta content="Coderthemes" name="author" />
+       
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <!-- App favicon -->
         <link rel="shortcut icon" href="assets/assets/images/favicon.ico">
@@ -32,7 +32,7 @@
 
                             <div class="card-body p-4">
                             
-                                <form method="post" action="/User/login">
+                                <form method="post" action="/blog/store">
 
                                     <div class="form-group mb-3">
                                         <label for="emailaddress">Title</label>
@@ -40,10 +40,8 @@
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="emailaddress">Description</label>
-                                        <input class="form-control" type="text" name="Title" required="">
+                                        <input class="form-control" type="text" name="Description" required="">
                                     </div>
-
-                                    
                                     <div class="form-group mb-0 text-center">
                                         <button class="btn btn-primary btn-block" type="submit"> Submit </button>
                                     </div>
@@ -52,9 +50,6 @@
                             </div> <!-- end card-body -->
                         </div>
                         <!-- end card -->
-
-                       
-
                     </div> <!-- end col -->
                 </div>
                 <!-- end row -->

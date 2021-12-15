@@ -8,6 +8,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/gorilla/schema"
 	"github.com/gorilla/sessions"
+	tpb "go-grpc-blog/gunk/v1/blog"
 	
 )
 
@@ -17,18 +18,21 @@ type Handler struct {
 	templates *template.Template
 	decoder   *schema.Decoder
 	sess      *sessions.CookieStore
+	tc       tpb.BlogServiceClient
 }
 
-func New(decoder *schema.Decoder, sess *sessions.CookieStore) *mux.Router {
+func New(decoder *schema.Decoder, sess *sessions.CookieStore ,tc tpb.BlogServiceClient) *mux.Router {
 	h := &Handler{
 		decoder: decoder,
 		sess:    sess,
+		tc:tc,
 	}
 
 	h.parseTemplates()
 	r := mux.NewRouter()
 
 	r.HandleFunc("/blog/create", h.BlogCreate)
+	r.HandleFunc("/blog/store", h.BlogStore)
 
 	// l := r.NewRoute().Subrouter()
 	// l.HandleFunc("/login", h.login)

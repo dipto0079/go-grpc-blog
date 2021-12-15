@@ -2,21 +2,19 @@ package handler
 
 import (
 	"net/http"
-//	"strconv"
+	//	"strconv"
 
 	validation "github.com/go-ozzo/ozzo-validation"
-	
+	tpb "go-grpc-blog/gunk/v1/blog"
 )
 
 type Blog struct {
-	ID       int    `db:"id"`
-	Title       string `db:"title"`
-	Description string `db:"description"`
-	IsCompleted bool   `db:"is_completed"`
-	Errors   map[string]string
+	ID          int
+	Title       string
+	Description string
+	IsCompleted bool
+	Errors      map[string]string
 }
-
-
 
 func (b *Blog) Validate() error {
 	return validation.ValidateStruct(b,
@@ -25,26 +23,23 @@ func (b *Blog) Validate() error {
 	)
 }
 
-
-
 // Add
 func (h *Handler) BlogCreate(rw http.ResponseWriter, r *http.Request) {
 
 	vErrs := map[string]string{"title": "", "description": ""}
 	title := ""
 	description := ""
-	h.createBookFormData(rw, title, description, vErrs)
+	h.createBlogFormData(rw, title, description, vErrs)
 	return
 
 }
 
-func (h *Handler) createBookFormData(rw http.ResponseWriter, title string, description string, errs map[string]string) {
+func (h *Handler) createBlogFormData(rw http.ResponseWriter, title string, description string, errs map[string]string) {
 
-	
 	form := Blog{
-		Title: title,
+		Title:       title,
 		Description: description,
-		Errors:   errs,
+		Errors:      errs,
 	}
 	if err := h.templates.ExecuteTemplate(rw, "create_blog.html", form); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
@@ -52,47 +47,51 @@ func (h *Handler) createBookFormData(rw http.ResponseWriter, title string, descr
 	}
 }
 
-// //Store
-// func (h *Handler) bookStore(rw http.ResponseWriter, r *http.Request) {
-// 	if err := r.ParseForm(); err != nil {
-// 		http.Error(rw, err.Error(), http.StatusInternalServerError)
-// 		return
-// 	}
-// 	var book BookData
-// 	if err := h.decoder.Decode(&book, r.PostForm); err != nil {
-// 		http.Error(rw, err.Error(), http.StatusInternalServerError)
-// 		return
-// 	}
+//Store
+func (h *Handler) BlogStore(rw http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	var blog Blog
+	if err := h.decoder.Decode(&blog, r.PostForm); err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-// 	if aErr := book.Validate(); aErr != nil {
-// 		//fmt.Printf("%T", aErr)
-// 		vErrors, ok := aErr.(validation.Errors)
-// 		if ok {
-// 			vErr := make(map[string]string)
-// 			for key, value := range vErrors {
-// 				vErr[key] = value.Error()
-// 			}
-// 			h.createFormData(rw, book.Name, vErr)
-// 			return
-// 		}
+	if aErr := blog.Validate(); aErr != nil {
+		//fmt.Printf("%T", aErr)
+		vErrors, ok := aErr.(validation.Errors)
+		if ok {
+			vErr := make(map[string]string)
+			for key, value := range vErrors {
+				vErr[key] = value.Error()
+			}
+			h.createBlogFormData(rw, blog.Title, blog.Description, vErr)
+			return
+		}
 
-// 		http.Error(rw, aErr.Error(), http.StatusInternalServerError)
-// 		return
-// 	}
+		http.Error(rw, aErr.Error(), http.StatusInternalServerError)
+		return
+	}
 
-// 	const insertBook = `INSERT INTO books(name,cat_id,status) VALUES ($1,$2,$3)`
-// 	res := h.db.MustExec(insertBook, book.Name, book.Cat_id, true)
-// 	if ok, err := res.RowsAffected(); err != nil || ok == 0 {
-// 		http.Error(rw, err.Error(), http.StatusInternalServerError)
-// 		return
-// 	}
-// 	http.Redirect(rw, r, "/Book/List", http.StatusTemporaryRedirect)
-// }
+	_, err := h.tc.Create(r.Context(), &tpb.CreateBlogRequest{
+		Blog: &tpb.Blog{
+			Title:       blog.Title,
+			Description: blog.Description,
+		},
+	})
+	if err != nil {
+		http.Error(rw, "Invalid URL", http.StatusInternalServerError)
+		return
+	}
 
+	http.Redirect(rw, r, "/blog/create", http.StatusTemporaryRedirect)
+}
 
 // // Show
 // func (h *Handler) bookList(rw http.ResponseWriter, r *http.Request) {
-	
+
 // 	queryFilter := r.URL.Query().Get("query")
 
 // 	books := []BookData{}
@@ -131,8 +130,6 @@ func (h *Handler) createBookFormData(rw http.ResponseWriter, title string, descr
 // 	}
 
 // }
-
-
 
 // //Edit
 // func (h *Handler) bookEdit(rw http.ResponseWriter, r *http.Request) {

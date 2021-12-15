@@ -10,10 +10,10 @@ import (
 	"github.com/gorilla/schema"
 	"github.com/gorilla/sessions"
 	"github.com/spf13/viper"
+	"google.golang.org/grpc"
+
+	tpb "go-grpc-blog/gunk/v1/blog"
 )
-
-
-
 
 func main() {
 	config := viper.NewWithOptions(
@@ -28,18 +28,26 @@ func main() {
 		log.Printf("error loading configuration: %v", err)
 	}
 
-	
-
 	var decoder = schema.NewDecoder()
 	decoder.IgnoreUnknownKeys(true)
 
 	store := sessions.NewCookieStore([]byte(config.GetString("session.secret")))
-	r := handler.New(decoder, store)
 
-	host,port:=config.GetString("server.host"),config.GetString("server.port")
+	conn, err := grpc.Dial(fmt.Sprintf("%s:%s", config.GetString("blog.host"), config.GetString("blog.port")),
+	grpc.WithInsecure(),
+	
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+	tc := tpb.NewBlogServiceClient(conn)
 
-	log.Printf("Server Starting no : http://%s:%s",host,port)
-	if err := http.ListenAndServe(fmt.Sprintf("%s:%s",host,port), r); err != nil {
+	r := handler.New(decoder, store, tc)
+
+	host, port := config.GetString("server.host"), config.GetString("server.port")
+
+	log.Printf("Server Starting no : http://%s:%s", host, port)
+	if err := http.ListenAndServe(fmt.Sprintf("%s:%s", host, port), r); err != nil {
 		log.Fatal(err)
 	}
 }
