@@ -30,8 +30,39 @@ func (s *Storage) Create(ctx context.Context, t storage.Blog) (int64, error) {
 func (s *Storage) Get(ctx context.Context, id int64) (*storage.Blog, error) {
 	var b storage.Blog
 
-	if err :=s.db.Get(&b,"SELECT * FROM blogs WHERE id=$1");err != nil{
+	if err :=s.db.Get(&b,"SELECT * FROM blogs WHERE id=$1",id);err != nil{
 		return nil,err
 	}
 	return &b,nil
+}
+
+
+const updateBlog =`
+	UPDATE blogs 
+	SET
+		title =:title,
+		description =:description
+	WHERE
+	id =:id
+	RETURNING *;
+`
+
+func (s *Storage) Update(ctx context.Context,t storage.Blog) (*storage.Blog, error) {
+	stmt,err :=s.db.PrepareNamed(updateBlog)
+	if err!=nil{
+		return nil,err
+	}
+	if err :=stmt.Get(&t,t);err != nil{
+		return nil,err
+	}
+	return &t,nil
+}
+
+
+func (s *Storage) Delete(ctx context.Context,id int64) error {
+	var b storage.Blog
+	if err := s.db.Get(&b,"DELETE FROM blogs WHERE id=$1 RETURNING * ",id); err != nil {
+		return err;
+	}
+	return nil
 }
