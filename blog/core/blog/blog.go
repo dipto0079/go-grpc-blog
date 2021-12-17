@@ -22,3 +22,8 @@ func (cs CoreSvc) Create(ctx context.Context, t storage.Blog) (int64, error) {
 	return cs.store.Create(ctx, t)
 	// return 0, nil
 }
+
+// func (cs CoreSvc) Get(ctx context.Context, t storage.Blog) (*storage.Blog, error) {
+// 	return cs.store.Create(ctx, t)
+// 	// return 0, nil
+// }

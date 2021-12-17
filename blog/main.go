@@ -40,6 +40,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to connect database: %s", err)
 	}
+	
 	cs := tb.NewCoreSve(store)
 	s := blog.NewTodoServer(cs)
 

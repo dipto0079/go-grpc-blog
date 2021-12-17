@@ -12,7 +12,7 @@ type blogCoreStore interface {
 	Create(context.Context, storage.Blog) (int64, error)
 }
 
-type Svc struct{
+type Svc struct {
 	tpb.UnimplementedBlogServiceServer
 	core blogCoreStore
 }
@@ -22,5 +22,3 @@ func NewTodoServer(b blogCoreStore) *Svc {
 		core: b,
 	}
 }
-
-
